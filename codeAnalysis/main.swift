@@ -10,7 +10,6 @@ import Foundation
 
 
 let home = FileManager.default.homeDirectoryForCurrentUser
-//print(home)
 let file = "file.txt"
 let text = "text ds"
 
