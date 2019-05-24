@@ -12,10 +12,51 @@ import Foundation
 let home = FileManager.default.homeDirectoryForCurrentUser
 let file = "file.txt"
 let text = "text ds"
-
 let fileURL = home.appendingPathComponent(file)
 
-var classCount = 0
+var NOC:    Int = 0//classes -- done
+var NOM:    Int = 0// methods
+var NProtM: Int = 0// protected methods
+var NOPA:   Int = 0// public attr
+
+let SPACE                     = "(\\s)*"
+let IDENTIFIER                = "(\\w|_|\\$)+"
+let MODIFIERS                 = "(public|private|protected)"
+let PARAMETERS                = "(\\(([^)]+)\\))"
+let ANNOTATION                = "@($\(IDENTIFIER))($\(SPACE)($\(PARAMETERS))?$\(SPACE)"
+let ANNOTATIONS               = "($\(ANNOTATION))+"
+let ASSIGNMENT                = "(?:(\\s)*=(?:[^;])*;(\\s)*)"
+let VARIABLE_OR_METHOD_REGEXP = MODIFIERS + SPACE + IDENTIFIER + SPACE + IDENTIFIER + PARAMETERS
+let NON_EMPTY_SPACE           = "(\\s)+"
+let PACKAGEIDENTIFIER         = "(\\w|_|\\$|\\.)+"
+let packageRegExp             = "\\b(package)$\(NON_EMPTY_SPACE)($\(PACKAGEIDENTIFIER))(;|\\b)"
+let CLASS_REGEXP              =  MODIFIERS + "?(class)"
+let STRING_REGEXP = #""(.)*""#
+
+
+
+let str = """
+public class MyClass {
+public void myMethod(sd sfsd) {
+// code to be executed
+}
+public void myMethod(sd sfsd) {
+// code to be executed
+}
+public void myMethod(sd sfsd) {
+// code to be executed
+}
+
+}
+"""
+
+
+let regex = try NSRegularExpression(pattern: VARIABLE_OR_METHOD_REGEXP, options: [])
+print(regex)
+let nsrange = NSRange(str.startIndex..<str.endIndex, in: str)
+let result = regex.matches(in: str, options: [], range: nsrange)
+print(result.count)
+
 
 func readingTheFile(){
     do{
@@ -24,12 +65,13 @@ func readingTheFile(){
         for line in lines {
             let word = line.split(separator: " ")
             if word.contains("class"){
-                classCount += 1
+                NOC += 1
             }
         }
     }catch{
     }
 }
+
 
 let fileManager = FileManager.default
 
@@ -64,4 +106,4 @@ do {
 
 
 
-print("dirs:\(dirCount) classes:\(classCount)")
+//print("dirs:\(dirCount) classes:\(NOC)")
